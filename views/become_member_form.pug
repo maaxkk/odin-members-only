@@ -1,0 +1,20 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        link(rel='stylesheet', href='/stylesheets/become_member.css')
+    body
+    if !member
+        form(method='POST' class='become_member__form')
+                h1(class='become_member__title')= 'Become member 📈'
+                label(for='secret_code')= 'Secret code 🔥'
+                input(type='text' class='become_member__input become_member__email' id='secret_code' name='secret'  placeholder='0123')
+                if errors
+                    ul(class='become_member__errors')
+                        each error in errors
+                            li(class='become_member__error')!= error.msg
+
+                input(type='submit' class='become_member__submit' value='Become member')
+    else
+        h1(class='become_member__title')= "You are already member 🥳"

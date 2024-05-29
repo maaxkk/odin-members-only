@@ -1,0 +1,20 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        link(rel='stylesheet', href='/stylesheets/login.css')
+    body
+        if !isAuth
+            form(method='POST' class='login__form')
+                h1(class='login__title')= 'Login'
+                input(type='text' class='login__input login__username' required=true name='username'  placeholder='Username'
+                value=(undefined===username ? '' : username) )
+                input(type='text' class='login__input login__password' required=true name='password' placeholder='Password')
+                if errors
+                    ul(class='login__errors')
+                        each error in errors
+                            li(class='login__error')!= error.msg
+                input(type='submit' class='login__submit' value='Login')
+        else
+            h1(class='login__title')= 'You already logged in. 🥳'

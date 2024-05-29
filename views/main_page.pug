@@ -1,0 +1,48 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        link(rel='stylesheet', href='/stylesheets/main_page.css')
+    body
+        nav
+            ul(class='page__nav')
+                each section in mockSections
+                    li
+                        if section === 'Message board' || section === 'Home'
+                            a(href=`/` class='page__link')= section
+                        else if section === 'Become member'
+                            a(href='/user/becomeMember' class='page__link')= section
+                        else
+                            a(href=`/user/${section.toLowerCase()}` class='page__link')= section
+
+        form(method='POST' class='page__form')
+            input(type='text' class='page__input' name='title' required=true placeholder='Title'
+            value=(undefined===title ? '' : title) )
+            textarea(class='page__description' name='description' required=true placeholder='Description') #{undefined===description ? '' : description}
+            if errors
+                ul(class='page__errors')
+                    each error in errors
+                        li(class='page__error')!= error.msg
+            input(type='submit' class='page__submit' value='Post')
+
+        if posts.length > 0
+            section(class='page__container')
+                each articleEl, index in posts
+                    article
+                        div(class='page__title_delete')
+                            h2= articleEl.title
+                            if isAdmin
+                                a(href=`/post/${articleEl.id}/delete`)
+                                    i(class='fa-solid fa-xmark page__delete' aria-hidden='true')
+                        p= articleEl.description
+                        div(class='page__author_date')
+                            if isMember
+                                p #{articleEl.author.username}
+                                p #{articleEl.createdAt_ago}
+                            else
+                                p= 'Unknown author'
+                                p= 'Unknown date'
+                        if index < posts.length - 1
+                            hr
+    script(src="https://kit.fontawesome.com/be08654c4d.js" crossorigin="anonymous")
